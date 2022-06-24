@@ -609,7 +609,7 @@ export class AuthController extends BaseController {
       });
   }
 
-  private async handleResetEmail(email: string): Promise<any> {
+  private handleResetEmail(email: string): PromiseLike<any> {
     return User.findOne({
       where: { email: email },
       include: [{ model: Profile, as: "profile" }],
