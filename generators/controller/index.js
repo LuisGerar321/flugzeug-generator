@@ -69,6 +69,12 @@ module.exports = class extends Generator {
         },
         when: this.opts.belongsToUser == null,
       },
+      {
+        type: "confirm",
+        name: "needsTestController",
+        message: "Needs Controller test file?",
+        default: false,
+      },
     ];
 
     return this.prompt(prompts).then((props) => {
@@ -79,6 +85,8 @@ module.exports = class extends Generator {
       if (this.opts.belongsToUser != null)
         this.props.belongsToUser = this.opts.belongsToUser;
       // Copy props to opts to expose to other composed generators
+      if (this.opts.needsTestController != null)
+        this.props.needsTestController = this.opts.needsTestController;
       Object.assign(this.opts, this.props);
     });
   }
@@ -91,6 +99,14 @@ module.exports = class extends Generator {
       ),
       this.props,
     );
+    if (this.props.needsTestController)
+        this.fs.copyTpl(
+          this.templatePath("../../test/controllerTestTemplate.ts"),
+          this.destinationPath(
+            `app/test/basic/${this.props.controllerName}.ts`,
+          ),
+          this.props,
+        );
   }
 
   end() {
