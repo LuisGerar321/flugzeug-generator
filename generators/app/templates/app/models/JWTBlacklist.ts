@@ -1,10 +1,10 @@
-import { Table, Column, DataType } from "sequelize-typescript";
+import { Table, Column, DataType, Model } from "sequelize-typescript";
 import { BaseModel } from "flugzeug";
 
 @Table({
   tableName: "jwtblacklist",
 })
-export class JWTBlacklist extends BaseModel<JWTBlacklist> {
+export class JWTBlacklist extends Model {
   @Column({
     type: DataType.STRING(512),
     allowNull: false,
