@@ -101,7 +101,7 @@ module.exports = class extends Generator {
     );
     if (this.props.needsTestController)
         this.fs.copyTpl(
-          this.templatePath("../../test/controllerTestTemplate.ts"),
+          this.templatePath("../../test/templates/controllerTestTemplate.ts"),
           this.destinationPath(
             `app/test/basic/${this.props.controllerName}.ts`,
           ),
