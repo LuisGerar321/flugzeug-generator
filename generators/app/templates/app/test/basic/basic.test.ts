@@ -3,7 +3,7 @@ process.env.DB_NAME = "app-backend-test";
 
 import chai from "chai";
 import authService, { AuthCredentials, JWTPayload, Token } from "@/services/AuthService";
-import { setUpTestDB } from "@/test/util";
+import { setUpTestDB, TestDb } from "@/test/util";
 import { log } from "@/libraries/Log";
 import { TokenExpiredError } from "jsonwebtoken";
 import { AuthType, User } from "@/models/User";
@@ -15,7 +15,7 @@ import _ from "lodash";
 describe("Test basic app unit test", () => {
   before(async function() {
     this.timeout(50000);
-    await setUpTestDB();
+    const test = new TestDb();
     log.info("app-backend-test database is ready!");
   });
 
