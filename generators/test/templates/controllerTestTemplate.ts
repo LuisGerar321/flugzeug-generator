@@ -55,13 +55,13 @@ describe(chalk.magenta("Test <%- controllerName %> Endpoints"), function() {
       chai.expect(res.body.data).to.include(_.pick(res.body.data, ["id", "name"]));
     });
 
-    it(`should failed <%- modelName %> creation, ${Object.keys(<%- modelName %>Body)[0]} is required`, async function() {
+    it(`should failed <%- modelName %> creation, ${Object.keys(<%- modelName %>Body)[0]} can not be null`, async function() {
 
       const <%- modelName %>BodyNameNull =  _.clone(<%- modelName %>Body);
       <%- modelName %>BodyNameNull.name = null;
 
       const res = await chai.request(app)
-        .post(`/api/v1/<%- endPoint %>Body`)
+        .post(`/api/v1/<%- endPoint %>`)
         .set("Authorization", `Bearer ${token}`)
         .send(<%- modelName %>BodyNameNull.name);
 
