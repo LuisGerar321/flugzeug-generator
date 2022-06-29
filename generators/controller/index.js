@@ -82,6 +82,7 @@ module.exports = class extends Generator {
       this.props.pathName = props.controllerName.toLowerCase();
       if (this.opts.modelName != null)
         this.props.modelName = this.opts.modelName;
+        this.props.endPoint = props.modelName.toLowerCase();
       if (this.opts.belongsToUser != null)
         this.props.belongsToUser = this.opts.belongsToUser;
       // Copy props to opts to expose to other composed generators

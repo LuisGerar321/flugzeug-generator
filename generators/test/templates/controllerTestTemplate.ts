@@ -47,7 +47,7 @@ describe(chalk.magenta("Test <%- controllerName %> Endpoints"), function() {
 
 
       const res = await chai.request(app)
-        .post(`/api/v1/<%- controllerName %>`)
+        .post(`/api/v1/<%- endPoint %>`)
         .set("Authorization", `Bearer ${token}`)
         .send(<%- modelName %>Body);
 
@@ -61,7 +61,7 @@ describe(chalk.magenta("Test <%- controllerName %> Endpoints"), function() {
       <%- modelName %>BodyNameNull.name = null;
 
       const res = await chai.request(app)
-        .post(`/api/v1/<%- controllerName %>Body`)
+        .post(`/api/v1/<%- endPoint %>Body`)
         .set("Authorization", `Bearer ${token}`)
         .send(<%- modelName %>BodyNameNull.name);
 
@@ -70,11 +70,11 @@ describe(chalk.magenta("Test <%- controllerName %> Endpoints"), function() {
   })
 
 
-  describe(chalk.yellow(`${props.controllerName}  GET Method`), function () {
+  describe(chalk.yellow(`<%- controllerName %>  GET Method`), function () {
     let id = null;
     it(`should GET all <%- modelName %>`, async function() {
       const res = await chai.request(app)
-        .get(`/api/v1/<%- controllerName %>`)
+        .get(`/api/v1/<%- endPoint %>`)
         .set("Authorization", `Bearer ${token}`);
       
       chai.expect(res).to.have.status(200);
@@ -83,7 +83,7 @@ describe(chalk.magenta("Test <%- controllerName %> Endpoints"), function() {
 
     it(`should GET <%- modelName %>`, async function() {
       const res = await chai.request(app)
-        .get(`/api/v1/<%- controllerName %>`)
+        .get(`/api/v1/<%- endPoint %>`)
         .set("Authorization", `Bearer ${token}`);
 
       chai.expect(res).to.have.status(200);
