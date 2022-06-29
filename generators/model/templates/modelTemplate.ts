@@ -24,8 +24,7 @@ export class <%- modelName %> extends BaseModel<<%- modelName %>> {
   @UpdateRequired(true)
   @Column({
     type: DataType.STRING,
-    allowNull: true,
-    defaultValue: null,
+    allowNull: false,
   })
   name: string;
 <% if (belongsToUser) { %>
