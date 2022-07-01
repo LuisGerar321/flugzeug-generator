@@ -45,23 +45,44 @@ export const setUpTestDB = async () => {
   await setupDBClearData();
   await seed();
 };
-export class TestDb {
-  static db;
-  on: boolean;
+
+/*Singleton Class to set up the test database and instance it just once.
+  Because the mocha tests run at multiples .test.ts files, this Singleton guarantee to run it by any mocha test that was run at first.
+*/
+export class TestDB {
+  private static instance: TestDB;
+  private isAlreadyInit: boolean = false;
+  private db;
+
   constructor() {
-    if (!!TestDb.db) return TestDb.db;
-    TestDb.db = this;
-    this.on = true;
-    return this;
+    //Set attributes for future modifications here!
   }
+
+  get getDB() {
+    return this.db;
+  }
+
+  public static getInstance(): TestDB {
+    if (!TestDB.instance) {
+        TestDB.instance = new TestDB();
+    }
+
+    return TestDB.instance;
+  }
+
+  //Executed once when code intence it.
   async init(){
-    (async () => {
-      console.log("Executed!");
-      await setUpTestDB();
-      console.log("Finish Executed!")
-    })();
+      
+      if (!!this.isAlreadyInit) return this.db;
+    
+      await createDB();
+      await addExtensions();
+      this.db = await setupDBClearData();
+      await seed();
+      this.isAlreadyInit = true;
+      return this.db;
   }
 }
-export const closeSetDB = async () => {
-  await db.close();
-};
+
+const testDB =  TestDB.getInstance(); //Singleton creation.
+export default testDB;
