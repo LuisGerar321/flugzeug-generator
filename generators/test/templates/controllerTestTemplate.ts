@@ -4,7 +4,7 @@ process.env.DB_NAME = "app-backend-test";
 import { before, describe, it } from "mocha";
 import chai from "chai";
 import chaiHttp from "chai-http";
-import { setUpTestDB, TestDb } from "@/test/util";
+import testDB from "@/test/util";
 import { config } from "@/config";
 import { <%- controllerName %> } from "@/models/<%- controllerName %>";
 import { app } from "@/server";
@@ -20,7 +20,7 @@ describe(chalk.magenta("Test <%- controllerName %> Endpoints"), function() {
 
   before("Setup DB and get token", async function() {
     this.timeout(50000);
-    const testDb = new TestDb()
+    await testDB.init();
     const user = {
       email: "admin@example.com",
       password: "adminadmin",
