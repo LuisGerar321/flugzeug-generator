@@ -292,46 +292,44 @@ export class AuthController extends BaseController {
   */
   @Post("/reset")
   @Middlewares([validateBody(AuthRegisterSchema)])
-  resetPost = (req: Request, res: Response) => {
+  resetPost = async (req: Request, res: Response) => {
     // Validate if case 2
     const token: string = req.body.token;
     const password: string = req.body.password;
 
     if (!_.isUndefined(token) && !_.isUndefined(password)) {
-      return this.handleResetChPass(token, password)
-        .then((credentials) => BaseController.ok(res, credentials))
-        .catch((err) => {
-          log.error(err);
-          if (err.error == "badRequest")
-            return BaseController.badRequest(res, err.msg);
-          if (err.error == "notFound")
-            return BaseController.notFound(res, err.msg);
-          if (err.error == "serverError")
-            return BaseController.serverError(res, err.msg);
-          return BaseController.serverError(res);
-        });
+      try {
+        const resetEmail = await this.handleResetChPass(token, password);
+      } catch (err) {
+        log.error(err);
+        if (err.error == "badRequest")
+          return BaseController.badRequest(res, err.msg);
+        if (err.error == "notFound")
+          return BaseController.notFound(res, err.msg);
+        if (err.error == "serverError")
+          return BaseController.serverError(res, err.msg);
+        return BaseController.serverError(res);        
+      }
     }
 
     // Validate case 1
     const email: string = req.body.email;
     if (!_.isUndefined(email)) {
-      return this.handleResetEmail(email)
-        .then((info) => {
-          log.info(info);
-          BaseController.ok(res);
-        })
-        .catch((err) => {
-          log.error(err);
-          if (err.error == "badRequest")
-            return BaseController.badRequest(res, err.msg);
-          if (err.error == "notFound")
-            return BaseController.notFound(res, err.msg);
-          if (err.error == "serverError")
-            return BaseController.serverError(res, err.msg);
-          return BaseController.serverError(res);
-        });
-    }
+      try {
+        const resetEmail = await this.handleResetEmail(email);
+        log.info(resetEmail);
+        return BaseController.ok(res);
+      } catch (err) {
+        log.error(err);
+        if (err.error == "badRequest") return BaseController.badRequest(res, err.msg);
+        
+        if (err.error == "notFound") return BaseController.notFound(res, err.msg);
+        
+        if (err.error == "serverError") return BaseController.serverError(res, err.msg);
 
+        return BaseController.serverError(res);
+      }
+    }
     return BaseController.badRequest(res);
   };
 
@@ -609,31 +607,18 @@ export class AuthController extends BaseController {
       });
   }
 
-  private handleResetEmail(email: string): Promise<any> {
-    return User.findOne({
+  private async handleResetEmail(email: string): Promise<any> {
+    const user = await User.findOne({
       where: { email: email },
-      include: [{ model: Profile, as: "profile" }],
+      include: [{ model: Profile, as: "profile" }],     
     })
-      .then((user) => {
-        if (!user) {
-          throw { error: "notFound", msg: "Email not found" };
-        }
-        // Create reset token
-        const token = this.createToken(user, "reset");
-        return {
-          token: token.token,
-          email: email,
-          name: user.name,
-          user: user,
-        };
-      })
-      .then((emailInfo) => {
-        return this.sendEmailNewPassword(
-          emailInfo.user,
-          emailInfo.token,
-          emailInfo.name,
-        );
-      });
+
+    if (!user) {
+      throw { error: "notFound", msg: "Email not found" };
+    }
+
+    const token = this.createToken(user, "reset");
+    return this.sendEmailNewPassword(user, token.token, user.name);
   }
 
   private handleResetChPass(
