@@ -607,13 +607,8 @@ export class AuthController extends BaseController {
       });
   }
 
-<<<<<<< Updated upstream
-  private handleResetEmail(email: string): PromiseLike<any> {
-    return User.findOne({
-=======
   private async handleResetEmail(email: string): Promise<any> {
     const user = await User.findOne({
->>>>>>> Stashed changes
       where: { email: email },
       include: [{ model: Profile, as: "profile" }],     
     })
