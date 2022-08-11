@@ -12,17 +12,18 @@ import onboardingService from "@/services/OnboardingService"
 import { UniqueConstraintError } from "sequelize/types";
 import _ from "lodash";
 
+let token;
+
 describe("Test basic app unit test", () => {
   before(async function() {
     this.timeout(50000);
     await testDB.init();
+    const tokenCreation = await authService.createToken(user, "access");
+    token = tokenCreation.token
   });
 
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1wbG95ZWVJZCI6OSwic3ViIjoiYWNjZXNzIiwiYXVkIjoidXNlciIsImV4cCI6MTY1NzIxMjA3NS4zMTYsImlhdCI6MTY1NDYyMDA3NS4zMTYsImp0aSI6IjNiYjg3NGNkLTc4NjQtNDYwNy05YWY1LTcyY2VkZTY0NTU1ZCIsImVtYWlsIjoiYWRtaW5AZXhhbXBsZS5jb20iLCJyb2xlcyI6WzVdfQ.vazduQLO0O2pwVrcj2cN1YYbNocaFCtzmyKfcr8XhBQ";
   const jwtBody = {
     id: 1,
-    employeeId: 9,
     sub: "access",
     aud: "user",
     exp: 1657212075.316,
@@ -43,7 +44,7 @@ describe("Test basic app unit test", () => {
       } catch (e) {
         jwt = null;
       }
-      chai.expect(jwt).to.be.deep.equal(jwtBody);
+      chai.expect(jwt).to.have.all.keys(jwtBody);
     });
 
     it("should be object type", async () => {
