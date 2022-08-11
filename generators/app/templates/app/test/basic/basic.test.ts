@@ -18,6 +18,9 @@ describe("Test basic app unit test", () => {
   before(async function() {
     this.timeout(50000);
     await testDB.init();
+    const user = await User.findOne({
+      include: [{ model: Role, as: "roles" }],
+    });
     const tokenCreation = await authService.createToken(user, "access");
     token = tokenCreation.token
   });
