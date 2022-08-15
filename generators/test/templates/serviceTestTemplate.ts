@@ -19,6 +19,5 @@ describe(chalk.magenta("Test <%- controllerName %> Endpoints"), function() {
       chai.expect({}).to.be.equal();
       console.log("Hii bru <3")
     });
-
   })
 });
