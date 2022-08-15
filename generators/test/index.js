@@ -58,11 +58,7 @@ module.exports = class extends Generator {
       type: "input",
       name: "modelName",
       message: "Model:",
-      default: (props) => {
-        return this.opts.modelName == null
-          ? props.controllerName
-          : this.opts.modelName;
-      },
+      default: this.opts.modelName == null ? "Thing" : this.opts.modelName,
       when: this.opts.modelName == null,
     };
 
@@ -94,10 +90,12 @@ module.exports = class extends Generator {
           break;
       }
 
+      console.log("props: ",  this.props);
       this.props = Object.keys(this.props).reduce((acc, key, _, object ) => {
-        acc[key] = object[key].toLowerCase();
+        acc[key] = object[`"${key}"`].toLowerCase();
         return {...acc};
       }, {})
+      console.log("enjoja!");
 
       Object.assign(this.opts, this.props);
     });
