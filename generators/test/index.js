@@ -4,9 +4,9 @@ const chalk = require("chalk");
 const changeCase = require("change-case");
 
 const TestTypes = {
-  Controller: "controller",
-  Model: "model",
-  Service: "service",
+  Controller: "Controller",
+  Model: "Model",
+  Service: "Service",
 }
 module.exports = class extends Generator {
   constructor(args, options) {
@@ -90,12 +90,11 @@ module.exports = class extends Generator {
           break;
       }
 
-      console.log("props: ",  this.props);
-      this.props = Object.keys(this.props).reduce((acc, key, _, object ) => {
-        acc[key] = object[`"${key}"`].replace(/^\w/, (c) => c.toUpperCase()); // To Capitalize
+      this.props = Object.keys(this.props).reduce((acc, key) => {
+        acc[key] = this.props[key]?.replace(/^\w/, (c) => c.toUpperCase()); // To Capitalize
         return {...acc};
       }, {})
-
+      
       if (this.props.serviceName) this.props.serviceNameImport = this.props.serviceName.toLoweCase();
       Object.assign(this.opts, this.props);
     });
@@ -108,7 +107,7 @@ module.exports = class extends Generator {
         this.fs.copyTpl(
           this.templatePath("../../test/templates/serviceTestTemplate.ts"),
           this.destinationPath(
-            `app/test/basic/${fileName}.ts`,
+            `app/test/services/${fileName}.test.ts`,
           ),
           this.props,
         );
@@ -117,7 +116,7 @@ module.exports = class extends Generator {
       this.fs.copyTpl(
         this.templatePath("../../test/templates/modelTestTemplate.ts"),
         this.destinationPath(
-          `app/test/basic/${fileName}.ts`,
+          `app/test/models/${fileName}.test.ts`,
         ),
         this.props,
       );
@@ -126,7 +125,7 @@ module.exports = class extends Generator {
         this.fs.copyTpl(
           this.templatePath("../../test/templates/controllerTestTemplate.ts"),
           this.destinationPath(
-            `app/test/basic/${fileName}.ts`,
+            `app/test/controllers/${fileName}.test.ts`,
           ),
           this.props,
         );
