@@ -92,11 +92,11 @@ module.exports = class extends Generator {
 
       console.log("props: ",  this.props);
       this.props = Object.keys(this.props).reduce((acc, key, _, object ) => {
-        acc[key] = object[`"${key}"`].toLowerCase();
+        acc[key] = object[`"${key}"`].replace(/^\w/, (c) => c.toUpperCase()); // To Capitalize
         return {...acc};
       }, {})
-      console.log("enjoja!");
 
+      if (this.props.serviceName) this.props.serviceNameImport = this.props.serviceName.toLoweCase();
       Object.assign(this.opts, this.props);
     });
   }

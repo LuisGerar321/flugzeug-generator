@@ -1,23 +1,31 @@
-import { before, describe, it } from "mocha";
+import { before, describe, it, Test } from "mocha";
 import chai from "chai";
-import chaiHttp from "chai-http";
 import testDB from "@/test/util";
-import { config } from "@/config";
-import { app } from "@/server";
-import _ from "lodash";
 import chalk from "chalk";
+import <%- serviceNameImport %> from "@/services/<%- serviceName %>"
 
-describe(chalk.magenta("Test <%- controllerName %> Endpoints"), function() {
-  let token = "";
 
-  before("Setup DB and get token", async function() {
+
+describe(`${chalk.green("> <%- serviceName %>")} ${chalk.magenta("Service")} ${chalk.green("test.")}`, function() { //TODO
+  before("setup test db", async function() {
     this.timeout(50000);
+    await testDB.init();
+    <%- serviceNameImport %>.init();
   });
 
-  describe(chalk.yellow(`message`), function () {
-    it(`should create an cute message`, async function() {
-      chai.expect({}).to.be.equal();
-      console.log("Hii bru <3")
+  describe(chalk.yellow(`First suitCase:`), function () {
+    it(`Case one`, async function() {
+      chai.expect({}).not.be.equal(null);
+    });
+  })
+
+  describe(chalk.yellow(`Second suitCase:`), function () {
+    it(`Case one`, async function() {
+      chai.expect({}).not.be.equal(null);
+    });
+    
+    it(`Case two`, async function() {
+      chai.expect({}).not.be.equal(null);
     });
   })
 });
