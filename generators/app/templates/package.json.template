@@ -87,6 +87,7 @@
     "lodash": "^4.17.21",
     "method-override": "3.0.0",
     "moment": "2.22.2",
+    "random-words": "^1.2.0",
     "swagger-ui-express": "4.1.6",
     "yaml": "1.10.2",
     "morgan": "1.9.1",
