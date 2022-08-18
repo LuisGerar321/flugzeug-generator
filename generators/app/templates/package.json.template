@@ -26,6 +26,7 @@
   "license": "UNLICENSED",
   "devDependencies": {
     "@types/bcrypt": "3.0.0",
+    "@types/chai": "^4.3.1",
     "@types/body-parser": "1.19.0",
     "@types/compression": "0.0.36",
     "@types/passport-microsoft": "0.0.0",
@@ -38,6 +39,7 @@
     "@types/jsonwebtoken": "7.2.8",
     "@types/lodash": "4.14.161",
     "@types/method-override": "0.0.31",
+    "@types/mocha": "^9.1.1",
     "@types/morgan": "1.7.35",
     "@types/node": "12.12.62",
     "@types/nodemailer": "^6.4.2",
@@ -85,6 +87,7 @@
     "lodash": "^4.17.21",
     "method-override": "3.0.0",
     "moment": "2.22.2",
+    "random-words": "^1.2.0",
     "swagger-ui-express": "4.1.6",
     "yaml": "1.10.2",
     "morgan": "1.9.1",
