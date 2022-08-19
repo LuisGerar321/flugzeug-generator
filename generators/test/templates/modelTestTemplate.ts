@@ -5,7 +5,6 @@ import testDB, { generateRndEntriesFromSchema, getSchema, handleTestCreate, hand
 import _ from "lodash";
 import chalk from "chalk";
 
-
 let a<%- modelName %>Table: <%- modelName %>;
 const <%- modelName %>Schema: Partial<<%- modelName %>> = getSchema(<%- modelName %>);
 const <%- modelName %>Entries: Partial<<%- modelName %>> = generateRndEntriesFromSchema(<%- modelName %>Schema);
@@ -43,5 +42,5 @@ describe(`${chalk.green("> <%- modelName %>")} ${chalk.magenta("Model")} ${chalk
       const <%- modelName %>Deleted = await handleTestRead(<%- modelName %>, a<%- modelName %>Table.id);
       chai.expect(<%- modelName %>Deleted).to.be.equal(null);
     });
-  })
+  });
 });

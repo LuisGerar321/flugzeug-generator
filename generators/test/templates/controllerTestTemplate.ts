@@ -55,7 +55,7 @@ describe(`${chalk.green("> <%- controllerName %>")} ${chalk.magenta("Controller"
         .send(<%- modelName %>BodyNameNull);
       chai.expect(res).to.have.status(500);
     });
-  })
+  });
 
   describe(chalk.yellow(`<%- controllerName %> GET Method:`), function () {
     it(`should GET all <%- modelName %>`, async function() {
@@ -73,7 +73,7 @@ describe(`${chalk.green("> <%- controllerName %>")} ${chalk.magenta("Controller"
       chai.expect(res).to.have.status(200);
       chai.expect(res.body.data).to.be.an("array");
     });
-  })
+  });
 
   describe(chalk.yellow(`<%- controllerName %> PUT Method:`), function () {
     it(`should update a <%- modelName %>`, async function() {
@@ -96,7 +96,7 @@ describe(`${chalk.green("> <%- controllerName %>")} ${chalk.magenta("Controller"
         .send(<%- modelName %>Body);
       chai.expect(res).to.have.status(404);
     });
-  })
+  });
 
   describe(chalk.yellow(`<%- controllerName %> DELETE Method:`), function () {
     it(`should update a <%- modelName %>`, async function() {
@@ -106,11 +106,11 @@ describe(`${chalk.green("> <%- controllerName %>")} ${chalk.magenta("Controller"
       chai.expect(res).to.have.status(204);
     });
 
-    it(`should retrives a 404 status code because <%- modelName %> ID to be deleted was not found.`, async function() {
+    it(`should retrieves a 404 status code because <%- modelName %> ID  was not found.`, async function() {
       const res = await chai.request(app)
         .put(`/api/v1/<%- endPoint %>/1000`)
         .set("Authorization", `Bearer ${token}`);
       chai.expect(res).to.have.status(404);
     });
-  })
+  });
 });

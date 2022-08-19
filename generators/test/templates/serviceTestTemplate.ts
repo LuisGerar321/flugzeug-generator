@@ -4,8 +4,6 @@ import testDB from "@/test/util";
 import chalk from "chalk";
 import <%- serviceNameImport %> from "@/services/<%- serviceName %>"
 
-
-
 describe(`${chalk.green("> <%- serviceName %>")} ${chalk.magenta("Service")} ${chalk.green("test.")}`, function() { //TODO
   before("setup test db", async function() {
     this.timeout(50000);
@@ -17,7 +15,7 @@ describe(`${chalk.green("> <%- serviceName %>")} ${chalk.magenta("Service")} ${c
     it(`Case one`, async function() {
       chai.expect({}).not.be.equal(null);
     });
-  })
+  });
 
   describe(chalk.yellow(`Second suitCase:`), function () {
     it(`Case one`, async function() {
@@ -27,5 +25,5 @@ describe(`${chalk.green("> <%- serviceName %>")} ${chalk.magenta("Service")} ${c
     it(`Case two`, async function() {
       chai.expect({}).not.be.equal(null);
     });
-  })
+  });
 });

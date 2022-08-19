@@ -101,7 +101,6 @@ module.exports = class extends Generator {
 
   writing() {
     const fileName = this.props.name ??  ((this.props.controllerName ?? this.props.modelName) ??  this.props.serviceName);
-    console.log("The file name: ", fileName);
     switch (this.props.testType) {
       case TestTypes.Service:
         this.fs.copyTpl(
@@ -133,5 +132,5 @@ module.exports = class extends Generator {
       default:
         break;
     }
-  }
+  };
 };
