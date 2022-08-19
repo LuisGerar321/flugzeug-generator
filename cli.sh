@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-if [[ $1 =~ ^(app|api|model|controller|service|-v|--version|version)$ ]]
+if [[ $1 =~ ^(app|api|model|test|controller|service|-v|--version|version)$ ]]
   then
     if [[ $1 =~ ^(-v|--version|version)$ ]]
       then

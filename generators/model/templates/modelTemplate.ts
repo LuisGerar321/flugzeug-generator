@@ -10,8 +10,8 @@ import {
   ResponseRequired,
   RequestRequired,
   UpdateRequired,
-  BaseModel,
 } from "flugzeug";
+import { BaseModel } from "@/libraries/BaseModel";
 
 <% if (belongsToUser) { %>import { User } from "./User";<% } %>
 @ApiDocs(true)
@@ -24,8 +24,7 @@ export class <%- modelName %> extends BaseModel<<%- modelName %>> {
   @UpdateRequired(true)
   @Column({
     type: DataType.STRING,
-    allowNull: true,
-    defaultValue: null,
+    allowNull: false,
   })
   name: string;
 <% if (belongsToUser) { %>
