@@ -1,9 +1,10 @@
 import { before, describe, it, Test } from "mocha";
 import chai from "chai";
+import { <%- modelName %> } from "@/models/<%- modelName %>"
 import testDB, { generateRndEntriesFromSchema, getSchema, handleTestCreate, handleTestRead, handleTestRemove, handleTestUpdate, timeStampKeys } from "@/test/util";
 import _ from "lodash";
 import chalk from "chalk";
-import { <%- modelName %> } from "@/models/<%- modelName %>"
+
 
 let a<%- modelName %>Table: <%- modelName %>;
 const <%- modelName %>Schema: Partial<<%- modelName %>> = getSchema(<%- modelName %>);
@@ -23,22 +24,22 @@ describe(`${chalk.green("> <%- modelName %>")} ${chalk.magenta("Model")} ${chalk
     });
 
     it(`Read`, async function() {
-      const <%- modelName %> = await handleTestRead(<%- modelName %>, a<%- modelName %>Table.id);
-      chai.expect(<%- modelName %>).to.not.equal(null);
+      const a<%- modelName %> = await handleTestRead(<%- modelName %> , a<%- modelName %>Table.id);
+      chai.expect(a<%- modelName %>).to.not.equal(null);
     });
 
     it(`Update`, async function() {
-      const <%- modelName %> = await handleTestRead(<%- modelName %>, a<%- modelName %>Table.id);
+      const a<%- modelName %> = await handleTestRead(<%- modelName %>, a<%- modelName %>Table.id);
       const <%- modelName %>Schema = getSchema(<%- modelName %>);
       const newAttributes = generateRndEntriesFromSchema(<%- modelName %>Schema);
-      const updated<%- modelName %> = await handleTestUpdate(<%- modelName %>, newAttributes);
+      const updated<%- modelName %> = await handleTestUpdate(a<%- modelName %>, newAttributes);
       const <%- modelName %>Modified = await handleTestRead(<%- modelName %>, a<%- modelName %>Table.id);
       chai.expect(_.omit(<%- modelName %>Modified["dataValues"] ,  [...timeStampKeys, "id"])).to.be.deep.equal( _.omit(updated<%- modelName %>["dataValues"] ,  [...timeStampKeys, "id"]));
     });
 
     it(`Delete`, async function() {
-      const <%- modelName %> = await handleTestRead(<%- modelName %>, a<%- modelName %>Table.id);
-      const deleted = await handleTestRemove(<%- modelName %>);
+      const a<%- modelName %> = await handleTestRead(<%- modelName %>, a<%- modelName %>Table.id);
+      const deleted = await handleTestRemove(a<%- modelName %>);
       const <%- modelName %>Deleted = await handleTestRead(<%- modelName %>, a<%- modelName %>Table.id);
       chai.expect(<%- modelName %>Deleted).to.be.equal(null);
     });

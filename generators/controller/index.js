@@ -101,13 +101,13 @@ module.exports = class extends Generator {
       this.props,
     );
     if (this.props.needsTestController)
-        this.fs.copyTpl(
-          this.templatePath("../../test/templates/controllerTestTemplate.ts"),
-          this.destinationPath(
-            `app/test/basic/${this.props.controllerName}.ts`,
-          ),
-          this.props,
-        );
+      this.fs.copyTpl(
+        this.templatePath("../../test/templates/controllerTestTemplate.ts"),
+        this.destinationPath(
+          `app/test/controllers/${this.props.controllerName}.test.ts`,
+        ),
+        this.props,
+      );
   }
 
   end() {

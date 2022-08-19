@@ -76,7 +76,7 @@ module.exports = class extends Generator {
       switch (props.testType) {
         case TestTypes.Service:
           promptsState = await this.prompt([promptService]);
-          this.props = {...promptsState, ...this.props};   
+          this.props = {...promptsState, ...this.props};
           break;
         case TestTypes.Model:
           promptsState = await this.prompt([promptModel]);
@@ -91,17 +91,17 @@ module.exports = class extends Generator {
       }
 
       this.props = Object.keys(this.props).reduce((acc, key) => {
+        if (key === "serviceName") acc.serviceNameImport = this.props[key]?.toLowerCase();
         acc[key] = this.props[key]?.replace(/^\w/, (c) => c.toUpperCase()); // To Capitalize
         return {...acc};
       }, {})
-      
-      if (this.props.serviceName) this.props.serviceNameImport = this.props.serviceName.toLoweCase();
       Object.assign(this.opts, this.props);
     });
   }
 
   writing() {
     const fileName = this.props.name ??  ((this.props.controllerName ?? this.props.modelName) ??  this.props.serviceName);
+    console.log("The file name: ", fileName);
     switch (this.props.testType) {
       case TestTypes.Service:
         this.fs.copyTpl(
@@ -113,14 +113,14 @@ module.exports = class extends Generator {
         );
         break;
       case TestTypes.Model:     
-      this.fs.copyTpl(
-        this.templatePath("../../test/templates/modelTestTemplate.ts"),
-        this.destinationPath(
-          `app/test/models/${fileName}.test.ts`,
-        ),
-        this.props,
-      );
-      break;
+        this.fs.copyTpl(
+          this.templatePath("../../test/templates/modelTestTemplate.ts"),
+          this.destinationPath(
+            `app/test/models/${fileName}.test.ts`,
+          ),
+          this.props,
+        );
+        break;
       case TestTypes.Controller:
         this.fs.copyTpl(
           this.templatePath("../../test/templates/controllerTestTemplate.ts"),

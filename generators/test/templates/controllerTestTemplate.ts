@@ -4,9 +4,9 @@ process.env.DB_NAME = "app-backend-test";
 import { before, describe, it } from "mocha";
 import chai from "chai";
 import chaiHttp from "chai-http";
-import testDB, { generateRndEntriesFromSchema, getSchema, timeStampKeys } from "@/test/util";
 import { config } from "@/config";
-import { <%- controllerName %> } from "@/models/<%- controllerName %>";
+import { <%- modelName %> } from "@/models/<%- modelName %>";
+import testDB, { generateRndEntriesFromSchema, generateEmptyEntriesFromSchema, getSchema, timeStampKeys } from "@/test/util";
 import { app } from "@/server";
 import _ from "lodash";
 import chalk from "chalk";
@@ -34,10 +34,8 @@ describe(`${chalk.green("> <%- controllerName %>")} ${chalk.magenta("Controller"
   });
 
   describe(chalk.yellow(`<%- controllerName %> POST Method:`), function () {
-    //Customize it to fit your needs!
-    const <%- modelName %>Body = {
-      name: `<%- controllerName %>Name`,
-    };
+    const <%- modelName %>Schema = getSchema(<%- modelName %>);
+    const <%- modelName %>Body = generateRndEntriesFromSchema(<%- modelName %>Schema);
 
     it(`should create an <%- modelName %>`, async function() {
       const res = await chai.request(app)
@@ -49,13 +47,12 @@ describe(`${chalk.green("> <%- controllerName %>")} ${chalk.magenta("Controller"
     });
 
     it(`should failed <%- modelName %> creation, ${Object.keys(<%- modelName %>Body)[0]} can not be null`, async function() {
-      const <%- modelName %>BodyNameNull =  _.clone(<%- modelName %>Body);
-      <%- modelName %>BodyNameNull.name = null;
-
+      const <%- modelName %>Schema = getSchema(<%- modelName %>);
+      const <%- modelName %>BodyNameNull = generateEmptyEntriesFromSchema(<%- modelName %>Schema);
       const res = await chai.request(app)
         .post(`/api/v1/<%- endPoint %>`)
         .set("Authorization", `Bearer ${token}`)
-        .send(<%- modelName %>BodyNameNull.name);
+        .send(<%- modelName %>BodyNameNull);
       chai.expect(res).to.have.status(500);
     });
   })
